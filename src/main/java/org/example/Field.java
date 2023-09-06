@@ -40,10 +40,20 @@ public class Field {
     }
 
     public void print() {
+        agents.forEach(agent -> {
+            System.out.println("Agent " + agent.getIdentifier() + " with " + agent.getPoints() + " points.");
+        });
         System.out.println("========================================");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                System.out.print(field[i][j] + " ");
+                for (Agent agent: agents) {
+                    if (agent.getCurrent_x() == i && agent.getCurrent_y() == j) {
+                        System.out.print(agent.getIdentifier() + " ");
+                    } else {
+                        System.out.print(field[i][j] + " ");
+                    }
+                }
+
             }
             System.out.println();
         }
@@ -51,16 +61,11 @@ public class Field {
     }
 
     public void update() {
-        for (Agent agent : agents) {
-            field[agent.getCurrent_x()][agent.getCurrent_y()] = agent.getIdentifier();
-            field[agent.getLast_x()][agent.getLast_y()] = " ";
-        }
         this.print();
     }
 
     public void spawn(Agent agent) {
         this.agents.add(agent);
-        this.field[agent.getCurrent_x()][agent.getCurrent_y()] = agent.getIdentifier();
     }
 
     public String info(int x, int y) {

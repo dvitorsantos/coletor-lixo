@@ -9,12 +9,15 @@ public class ReactiveAgent extends Agent {
         super(identifier, current_x, current_y);
     }
 
-    public void decide(String info) {
+    public void decide(Field field) {
+        String info = field.info(this.getCurrent_x(), this.getCurrent_y());
+
         if (isTrash(info)) {
             this.collect(info);
+            field.clean(this.getCurrent_x(), this.getCurrent_y());
+        } else {
+            this.walk();
         }
-
-        this.walk();
     }
 
     public void walk() {

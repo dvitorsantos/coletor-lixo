@@ -8,9 +8,9 @@ public class Main {
         ReactiveAgent a = new ReactiveAgent("A", 0, 0);
         field.spawn(a);
         while (true) {
-            a.decide(field.info(a.getCurrent_x(), a.getCurrent_y() + 1));
+            a.decide(field);
             field.update();
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
 
     }

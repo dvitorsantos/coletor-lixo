@@ -9,7 +9,6 @@ public class Agent {
     private Integer last_x;
     private Integer last_y;
     private Integer points;
-    private String orientation = "WALKING_RIGHT";
 
     public Agent(String identifier, int current_x, int current_y) {
         this.identifier = identifier;
