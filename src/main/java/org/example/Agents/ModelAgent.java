@@ -43,6 +43,7 @@ public class ModelAgent extends Agent {
 		String info = field.info(this.getCurrent_x(), this.getCurrent_y());
 
 		if (isTrash(info)) {
+
 			updateCollect(field,info);
 		}
 		
