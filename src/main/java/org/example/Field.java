@@ -47,17 +47,28 @@ public class Field {
         System.out.println("========================================");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-
-                System.out.print(field[i][j] + " ");
+            	System.out.print(field[i][j] + " ");
                 for (Agent agent: agents) {
                     if (agent.getCurrent_x() == i && agent.getCurrent_y() == j) {
                         System.out.print(agent.getIdentifier() + " ");
                     }
+                   
                 }
             }
             System.out.println();
         }
         System.out.println("========================================");
+    }
+    
+    public boolean hasTrash() {
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                if (field[i][j].equals("*") || field[i][j].equals("#")) {
+                    return true; // Elemento encontrado
+                }
+            }
+        }
+        return false; // Elemento não encontrado
     }
 
     public void update() {
@@ -82,5 +93,9 @@ public class Field {
 
     public int getColumns() {
         return columns;
+    }
+    
+    public String[][] getField(){
+    	return field;
     }
 }

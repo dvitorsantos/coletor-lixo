@@ -17,23 +17,21 @@ public class ModelAgent extends Agent {
 		super(identifier, current_x, current_y);
 
 	}
-	
-	public void decide(Field field){
-		if(mapStatus.equals("NO_MAPPED")) {
+
+	public void decide(Field field) {
+		if (mapStatus.equals("NO_MAPPED")) {
 			toMap(field);
-		}
-		else {
+		} else {
+			scanner(this.getCurrent_x(), this.getCurrent_y(), field);
 			String info = field.info(this.getCurrent_x(), this.getCurrent_y());
 
 			if (isTrash(info)) {
-				updateCollect(field,info);
-			}
-			else {
-				int [] nearestTrash = getNearestTrash();
+				updateCollect(field);
+			} else {
+				int[] nearestTrash = getNearestTrash();
 				System.out.println(nearestTrash[0] + nearestTrash[1]);
 				goToTrash(nearestTrash);
 			}
-			
 
 		}
 	}
@@ -43,21 +41,17 @@ public class ModelAgent extends Agent {
 		String info = field.info(this.getCurrent_x(), this.getCurrent_y());
 
 		if (isTrash(info)) {
-
-			updateCollect(field,info);
+			updateCollect(field);
 		}
-		
+
 		if (this.getCurrent_x() == 19 && this.getCurrent_y() == 19) {
 			scanner(this.getCurrent_x(), this.getCurrent_y(), field);
 			mapStatus = "MAPPED";
-
 		}
-
 		else {
 			scanner(this.getCurrent_x(), this.getCurrent_y(), field);
 			walk();
 		}
-
 	}
 
 //mapeia e atualiza a pilha de lixos;
@@ -70,8 +64,7 @@ public class ModelAgent extends Agent {
 			int newRow = i + offset[0]; // guarda o valor de uma possivel linha a ser escaneada
 			int newCol = j + offset[1]; // guarda o valor de uma possivel coluna a ser escaneada
 
-			if (newRow >= 0 && newRow < 20 && newCol >= 0 && newCol < 20) { // verifica se a possivel combinação de
-																			// linha e coluna é válida (se cabe no mapa)
+			if (newRow >= 0 && newRow < 20 && newCol >= 0 && newCol < 20) { // verifica se a possivel combinação de linha e coluna é válida (se cabe no mapa)
 				internalField[newRow][newCol] = field.info(newRow, newCol);
 				// insere novos lixos que acabaram de ser detectados
 				if (isTrash(internalField[newRow][newCol])) {
@@ -83,12 +76,11 @@ public class ModelAgent extends Agent {
 	}
 
 	public void walk() {
-
 		if (this.orientation.equals("WALKING_DOWN_INI")) {
 			this.move_down();
-			if(this.getCurrent_x()==1 && this.getCurrent_y() ==0)
+			if (this.getCurrent_x() == 1 && this.getCurrent_y() == 0)
 				this.orientation = "WALKING_RIGHT";
-			if(this.getCurrent_x()==1 && this.getCurrent_y() == 19)
+			if (this.getCurrent_x() == 1 && this.getCurrent_y() == 19)
 				this.orientation = "WALKING_LEFT";
 			return;
 		}
@@ -136,6 +128,7 @@ public class ModelAgent extends Agent {
 			System.out.println();
 		}
 	}
+
 	// retorna a distancia de um lixo para um agente
 	private static double calculateDistance(double x1, double y1, double x2, double y2) {
 		double differenceX = x2 - x1;
@@ -143,14 +136,14 @@ public class ModelAgent extends Agent {
 		double distance = Math.sqrt(Math.pow(differenceX, 2) + Math.pow(differenceY, 2));
 		return distance;
 	}
-	
-	//retorna a posição do lixo mais próximo
+
+	// retorna a posição do lixo mais próximo
 	private int[] getNearestTrash() {
-		int [] nearestTrash = new int [2];
+		int[] nearestTrash = new int[2];
 		double menor = 999999f;
-		for(Integer[] trash : trashStack) {
-			double distance = calculateDistance(this.getCurrent_x(),this.getCurrent_y(),trash[0],trash[1]);
-			if (distance<menor) {
+		for (Integer[] trash : trashStack) {
+			double distance = calculateDistance(this.getCurrent_x(), this.getCurrent_y(), trash[0], trash[1]);
+			if (distance < menor) {
 				menor = distance;
 				nearestTrash[0] = trash[0];
 				nearestTrash[1] = trash[1];
@@ -158,37 +151,34 @@ public class ModelAgent extends Agent {
 		}
 		return nearestTrash;
 	}
-	
-	private void goToTrash(int [] array) {
-		if(this.getCurrent_x() != array[0]) {
-			if(this.getCurrent_x()>array[0]) {
+
+	private void goToTrash(int[] array) {
+		if (this.getCurrent_x() != array[0]) {
+			if (this.getCurrent_x() > array[0]) {
 				this.move_up();
-			}
-			else
+			} else
 				this.move_down();
-		}
-		else if(this.getCurrent_y() != array[1]) {
-			if(this.getCurrent_y()>array[1]) {
+		} else if (this.getCurrent_y() != array[1]) {
+			if (this.getCurrent_y() > array[1]) {
 				this.move_left();
-			}
-			else {
+			} else {
 				this.move_right();
 			}
 		}
 	}
-	
-	private void updateCollect(Field field, String info) {
+
+	private void updateCollect(Field field) {
 		this.collect(field);
 
 		// verifica se o lixo que acabou de ser comido estava na pilha de lixos
 		// detectados, se sim, exclui-se da pilha
-		
+
 		Iterator<Integer[]> iterator = trashStack.iterator();
 		while (iterator.hasNext()) {
-		    Integer[] trash = iterator.next();
-		    if (trash[0].equals(this.getCurrent_x()) && trash[1].equals(this.getCurrent_y())) {
-		        iterator.remove(); // Remove o elemento de forma segura
-		    }
+			Integer[] trash = iterator.next();
+			if (trash[0].equals(this.getCurrent_x()) && trash[1].equals(this.getCurrent_y())) {
+				iterator.remove(); // Remove o elemento de forma segura
+			}
 		}
 
 	}
