@@ -2,10 +2,10 @@ package org.example.Agents;
 
 import org.example.Field;
 
-public class ReactiveAgent extends Agent {
+public class SimpleReactiveAgent extends Agent {
     private String orientation = "WALKING_RIGHT";
 
-    public ReactiveAgent(String identifier, int current_x, int current_y) {
+    public SimpleReactiveAgent(String identifier, int current_x, int current_y) {
         super(identifier, current_x, current_y);
     }
 
