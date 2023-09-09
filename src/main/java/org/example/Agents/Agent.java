@@ -39,11 +39,15 @@ public class Agent {
         this.current_y++;
     }
 
-    public void collect(String trash) {
+    public void collect(Field field) {
+        String trash = field.info(this.getCurrent_x(), this.getCurrent_y());
+
         switch (trash) {
             case "*" -> this.points += 1;
             case "#" -> this.points += 3;
         }
+
+        field.clean(this.getCurrent_x(), this.getCurrent_y());
     }
 
     public boolean isTrash(String info) {
