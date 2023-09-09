@@ -13,8 +13,7 @@ public class ReactiveAgent extends Agent {
         String info = field.info(this.getCurrent_x(), this.getCurrent_y());
 
         if (isTrash(info)) {
-            this.collect(info);
-            field.clean(this.getCurrent_x(), this.getCurrent_y());
+            this.collect(field);
         } else {
             this.walk();
         }

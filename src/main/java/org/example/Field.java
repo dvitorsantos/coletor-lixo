@@ -46,12 +46,11 @@ public class Field {
         System.out.println("========================================");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
+            	System.out.print(field[i][j] + " ");
                 for (Agent agent: agents) {
                     if (agent.getCurrent_x() == i && agent.getCurrent_y() == j) {
                         System.out.print(agent.getIdentifier() + " ");
-                    } else {
-                        System.out.print(field[i][j] + " ");
-                    }
+                    } 
                 }
 
             }
