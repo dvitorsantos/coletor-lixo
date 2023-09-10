@@ -29,7 +29,6 @@ public class ModelAgent extends Agent {
 				updateCollect(field);
 			} else {
 				int[] nearestTrash = getNearestTrash();
-				System.out.println(nearestTrash[0] + nearestTrash[1]);
 				goToTrash(nearestTrash);
 			}
 
@@ -70,6 +69,14 @@ public class ModelAgent extends Agent {
 				if (isTrash(internalField[newRow][newCol])) {
 					Integer[] temp = { newRow, newCol };
 					trashStack.push(temp);
+				}
+				// verifica se lixos anteriormente listados já foram removidos por outros agentes
+				Iterator<Integer[]> iterator = trashStack.iterator();
+				while (iterator.hasNext()) {
+					Integer[] trash = iterator.next();
+					if (trash[0].equals(newRow) && trash[1].equals(newCol) && internalField[newRow][newCol].equals(" ")) {
+						iterator.remove(); // Remove o elemento de forma segura
+					}
 				}
 			}
 		}
