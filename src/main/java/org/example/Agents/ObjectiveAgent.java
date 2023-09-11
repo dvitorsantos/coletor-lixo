@@ -47,10 +47,30 @@ public class ObjectiveAgent extends Agent {
     }
 
     public int[] next_objective() {
-        return objectives.get(0);
+    	int[] nearestTrash = new int[2];
+		double menor = 999999f;
+		for (int[] trash : objectives) {
+			double distance = calculateDistance(this.getCurrent_x(), this.getCurrent_y(), trash[0], trash[1]);
+			if (distance < menor) {
+				menor = distance;
+				nearestTrash[0] = trash[0];
+				nearestTrash[1] = trash[1];
+			}
+		}
+		return nearestTrash;
     }
 
     public void remove_objective(int x, int y) {
         objectives.removeIf(objective -> objective[0] == x && objective[1] == y);
     }
+    
+    private static double calculateDistance(double x1, double y1, double x2, double y2) {
+		double differenceX = x2 - x1;
+		double differenceY = y2 - y1;
+		double distance = Math.sqrt(Math.pow(differenceX, 2) + Math.pow(differenceY, 2));
+		return distance;
+	}
+    
+   
+
 }

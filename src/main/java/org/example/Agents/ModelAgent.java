@@ -17,7 +17,7 @@ public class ModelAgent extends Agent {
 		super(identifier, current_x, current_y);
 
 	}
-
+	
 	public void decide(Field field) {
 		if (mapStatus.equals("NO_MAPPED")) {
 			toMap(field);
@@ -34,9 +34,8 @@ public class ModelAgent extends Agent {
 
 		}
 	}
-
+	// função que dirige o mapeamento do mapa
 	private void toMap(Field field) {
-		// coleta, se necessário
 		String info = field.info(this.getCurrent_x(), this.getCurrent_y());
 
 		if (isTrash(info)) {
@@ -53,7 +52,7 @@ public class ModelAgent extends Agent {
 		}
 	}
 
-//mapeia e atualiza a pilha de lixos;
+//escaneia o mapa e atualiza a pilha de lixos;
 	private void scanner(int i, int j, Field field) {
 		int[][] offsets = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } }; // posicoes(superior, inferior, esquerda,
 		// direita)
@@ -125,15 +124,6 @@ public class ModelAgent extends Agent {
 			this.move_left();
 		}
 
-	}
-
-	public void getInternalField() {// Só para ver se tá imprimindo o mapa interno que foi mapeado
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
-				System.out.print(internalField[i][j] + " ");
-			}
-			System.out.println();
-		}
 	}
 
 	// retorna a distancia de um lixo para um agente
