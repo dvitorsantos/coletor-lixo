@@ -8,8 +8,8 @@ import org.example.Agents.UtilityAgent;
 public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		Field field = new Field();
-		SimpleReactiveAgent simpleReactive = new SimpleReactiveAgent("A", 0, 19);
-		ModelAgent model = new ModelAgent("B", 0, 0);
+		SimpleReactiveAgent simpleReactive = new SimpleReactiveAgent("A", 0, 0);
+		ModelAgent model = new ModelAgent("B", 0, 19);
 		ObjectiveAgent objective = new ObjectiveAgent("C", 0, 19, field);
 		UtilityAgent utility = new UtilityAgent("D", 0, 0, field);
 		

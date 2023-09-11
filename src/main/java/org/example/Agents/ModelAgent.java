@@ -36,20 +36,22 @@ public class ModelAgent extends Agent {
 	}
 	// função que dirige o mapeamento do mapa
 	private void toMap(Field field) {
-		String info = field.info(this.getCurrent_x(), this.getCurrent_y());
+		try {
+			String info = field.info(this.getCurrent_x(), this.getCurrent_y());
 
-		if (isTrash(info)) {
-			updateCollect(field);
+			if (isTrash(info)) {
+				updateCollect(field);
+			}
+			else {
+				scanner(this.getCurrent_x(), this.getCurrent_y(), field);
+				walk();
+			}
 		}
-
-		if (this.getCurrent_x() == 19 && this.getCurrent_y() == 19) {
-			scanner(this.getCurrent_x(), this.getCurrent_y(), field);
+		catch(ArrayIndexOutOfBoundsException e) {
+			this.move_up();
 			mapStatus = "MAPPED";
 		}
-		else {
-			scanner(this.getCurrent_x(), this.getCurrent_y(), field);
-			walk();
-		}
+		
 	}
 
 //escaneia o mapa e atualiza a pilha de lixos;

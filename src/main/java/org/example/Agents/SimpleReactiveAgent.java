@@ -3,7 +3,7 @@ package org.example.Agents;
 import org.example.Field;
 
 public class SimpleReactiveAgent extends Agent {
-    private String orientation = "WALKING_RIGHT";
+    private String orientation = "POS_INITIAL";
 
     public SimpleReactiveAgent(String identifier, int current_x, int current_y) {
         super(identifier, current_x, current_y);
@@ -20,6 +20,12 @@ public class SimpleReactiveAgent extends Agent {
     }
 
     public void walk() {
+    	if(this.orientation.equals("POS_INITIAL")) {
+    		if(getCurrent_y() == 19)
+    			this.orientation = "WALKING_LEFT";
+    		if(getCurrent_y() == 0)
+    			this.orientation = "WALKING_RIGHT";
+    	}
         if (this.orientation.equals("TURNING_RIGHT")) {
             this.orientation = "WALKING_RIGHT";
         }
