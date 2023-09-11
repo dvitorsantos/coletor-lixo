@@ -59,7 +59,7 @@ public class ModelAgent extends Agent {
 		int[][] offsets = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } }; // posicoes(superior, inferior, esquerda,
 		// direita)
 		internalField[i][j] = field.info(i, j); // scaneia a posicao atual
-
+		updateStackTrash(i,j);
 		for (int[] offset : offsets) {
 			int newRow = i + offset[0]; // guarda o valor de uma possivel linha a ser escaneada
 			int newCol = j + offset[1]; // guarda o valor de uma possivel coluna a ser escaneada
@@ -72,13 +72,7 @@ public class ModelAgent extends Agent {
 					trashStack.push(temp);
 				}
 				// verifica se lixos anteriormente listados já foram removidos por outros agentes
-				Iterator<Integer[]> iterator = trashStack.iterator();
-				while (iterator.hasNext()) {
-					Integer[] trash = iterator.next();
-					if (trash[0].equals(newRow) && trash[1].equals(newCol) && internalField[newRow][newCol].equals(" ")) {
-						iterator.remove(); // Remove o elemento de forma segura
-					}
-				}
+				updateStackTrash(newRow,newCol);
 			}
 		}
 	}
@@ -180,6 +174,16 @@ public class ModelAgent extends Agent {
 			}
 		}
 
+	}
+	
+	private void updateStackTrash(int newRow, int newCol) {
+		Iterator<Integer[]> iterator = trashStack.iterator();
+		while (iterator.hasNext()) {
+			Integer[] trash = iterator.next();
+			if (trash[0].equals(newRow) && trash[1].equals(newCol) && internalField[newRow][newCol].equals(" ")) {
+				iterator.remove(); // Remove o elemento de forma segura
+			}
+		}
 	}
 
 }
