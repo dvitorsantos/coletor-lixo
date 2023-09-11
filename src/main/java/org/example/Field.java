@@ -8,26 +8,38 @@ import java.util.Random;
 public class Field {
     private final int rows = 20;
     private final int columns = 20;
+    private int trashes = 0;
     private String[][] field = new String[rows][columns];
-
     private ArrayList<Agent> agents;
 
     public Field() {
         this.agents = new ArrayList<>();
 
+        int low_trashes = 0;
+        int high_trashes = 0;
+
         Random random = new Random();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                int randomValue = random.nextInt(10); // Gere um valor aleatório entre 0 e 2
+                int randomValue = random.nextInt(20);
                 String randomChar;
 
-                // Mapeie o valor aleatório para '*' ou '#' ou espaço vazio
                 switch (randomValue) {
                     case 0:
-                        randomChar = String.valueOf('*');
+                        if (low_trashes < 10) {
+                            randomChar = String.valueOf('*');
+                            low_trashes++;
+                        } else {
+                            randomChar = String.valueOf(' ');
+                        }
                         break;
                     case 1:
-                        randomChar = String.valueOf('#');
+                        if (high_trashes < 10) {
+                            randomChar = String.valueOf('#');
+                            high_trashes++;
+                        } else {
+                            randomChar = String.valueOf(' ');
+                        }
                         break;
                     default:
                         randomChar = String.valueOf(' ');
@@ -37,12 +49,16 @@ public class Field {
                 field[i][j] = randomChar;
             }
         }
+
+        this.trashes = low_trashes + high_trashes;
     }
 
     public void print() {
         agents.forEach(agent -> {
             System.out.println("Agent " + agent.getIdentifier() + " with " + agent.getPoints() + " points.");
         });
+
+        System.out.println(trashes + " trashes in game.");
 
         System.out.println("========================================");
         for (int i = 0; i < rows; i++) {
@@ -53,8 +69,6 @@ public class Field {
                         System.out.print(agent.getIdentifier());
                     }
                 }
-                //System.out.print(field[i][j] + " ");
-                
             }
             System.out.println();
         }
@@ -62,14 +76,7 @@ public class Field {
     }
     
     public boolean hasTrash() {
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
-                if (field[i][j].equals("*") || field[i][j].equals("#")) {
-                    return true; // Elemento encontrado
-                }
-            }
-        }
-        return false; // Elemento não encontrado
+        return trashes > 0;
     }
 
     public void update() {
@@ -85,6 +92,7 @@ public class Field {
     }
 
     public void clean(int x, int y) {
+        if (this.field[x][y].equals("*") || this.field[x][y].equals("#")) this.trashes--;
         this.field[x][y] = " ";
     }
 

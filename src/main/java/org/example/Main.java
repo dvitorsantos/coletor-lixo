@@ -13,23 +13,18 @@ public class Main {
 		ObjectiveAgent objective = new ObjectiveAgent("C", 0, 19, field);
 		UtilityAgent utility = new UtilityAgent("D", 0, 0, field);
 		
-		field.spawn(simpleReactive);
-		field.spawn(model);
-		//field.spawn(objective);
-		//field.spawn(utility);
+//		field.spawn(simpleReactive);
+//		field.spawn(model);
+		field.spawn(objective);
+		field.spawn(utility);
 
-		while (true) {
-			if(!field.hasTrash()) {
-				break;
-			}
+		while (field.hasTrash()) {
 			simpleReactive.decide(field);
 			model.decide(field);
-			//objective.decide(field);
-			//utility.decide(field);
+			objective.decide(field);
+			utility.decide(field);
 			field.update();
-			Thread.sleep(80);
+			Thread.sleep(500);
 		}
-
 	}
-	
 }
